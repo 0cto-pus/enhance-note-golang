@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type User struct {
-	ID        uint      `json:"id" gorm:"PrimaryKey"`
+	ID        uint64      `json:"id" gorm:"PrimaryKey"`
 	Email     string    `json:"email" gorm:"index;unique;not null"`
 	Password  string    `json:"password"`
 	CreatedAt time.Time `json:"created_at" gorm:"default:current_timestamp"`
