@@ -4,6 +4,7 @@ import (
 	"enhanced-notes/config"
 	"enhanced-notes/src/api/rest"
 	"enhanced-notes/src/api/rest/handler"
+	"enhanced-notes/src/domain"
 	"enhanced-notes/src/helper"
 	"log"
 
@@ -22,6 +23,12 @@ func StartServer(config config.AppConfig){
 	}
 
 	log.Printf("database connected")
+
+	err = db.AutoMigrate(&domain.User{})
+	if err != nil {
+		log.Fatalf("error on running migration %v", err.Error()) 
+	}
+	log.Println("migration successful") 
 
 	auth := helper.SetupAuth(config.AppSecret)
 
