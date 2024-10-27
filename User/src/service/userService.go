@@ -13,8 +13,6 @@ type IUserService interface {
     Login(userInput dto.UserLogin)(string, error)
     SignUp(userInput dto.UserSignUp) (string,error)
     FindUserByEmail(email string)(*domain.User,error)
-
-
 }
 
 type UserService struct {
@@ -25,9 +23,10 @@ type UserService struct {
 
 
 
-func NewUserService(userRepository repository.IUserRepository) IUserService{
+func NewUserService(userRepository repository.IUserRepository, auth helper.Auth) IUserService{
     return &UserService{
         userRepository: userRepository,
+        Auth: auth,
     }
 }
 
@@ -47,11 +46,11 @@ func(userService *UserService) SignUp(userInput dto.UserSignUp) (string, error){
     }
 
     user, err := userService.userRepository.CreateUser(domain.User{Email:userInput.Email,Password: hashedPassword})
-
     if err != nil{
         return "",err
     }
-    return userService.Auth.GenerateToken(user.ID, user.Email)
+    deneme,_ := userService.Auth.GenerateToken(user.ID, user.Email)
+    return deneme,err
 }
 
 func (userService *UserService) FindUserByEmail(email string)(*domain.User,error){

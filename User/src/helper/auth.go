@@ -82,7 +82,6 @@ func (auth Auth) VerifyToken(jwtToken string) (domain.User, error) {
 		return domain.User{}, nil
 	}
 	tokenStr := tokenArr[1]
-//fmt.Printf(tokenStr)
 	if tokenArr[0] != "Bearer" {
 		return domain.User{}, errors.New("invalid token")
 	}
