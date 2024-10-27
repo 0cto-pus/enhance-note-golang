@@ -11,7 +11,7 @@ import (
 
 type IUserService interface {
     Login(userInput dto.UserLogin)(string, error)
-    SignUp(userInput dto.UserSignUp)(string, error)
+    SignUp(userInput dto.UserSignUp) (string,error)
     FindUserByEmail(email string)(*domain.User,error)
 
 
@@ -40,7 +40,7 @@ func(userService *UserService) Login(userInput dto.UserLogin)(string, error){
     return userService.Auth.GenerateToken(user.ID, user.Email)
 }
 
-func(userService *UserService) SignUp(userInput dto.UserSignUp)(string, error){
+func(userService *UserService) SignUp(userInput dto.UserSignUp) (string, error){
     hashedPassword, err := userService.Auth.CreateHashedPassword(userInput.Password)
     if err != nil{
         return "",err
