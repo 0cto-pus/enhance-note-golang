@@ -11,6 +11,7 @@ import (
 type IUserRepository interface {
 	CreateUser(user domain.User) (domain.User, error)
 	FindUserById(userId uint64) (domain.User, error)
+	GetUserByEmail(email string)(domain.User, error)
 }
 
 type UserRepository struct{
@@ -41,5 +42,18 @@ func (userRepository *UserRepository) FindUserById(userId uint64) (domain.User,e
 		log.Printf("find user error %v",err)
 		return domain.User{}, errors.New("user does not exist")
 	}
+	return user, nil
+}
+
+func (userRepository *UserRepository) GetUserByEmail(email string) (domain.User, error) {
+
+	var user domain.User
+	err:=userRepository.db.First(&user,"email=?", email).Error
+
+	if err != nil{
+		log.Printf("find user error %v",err)
+		return domain.User{}, errors.New("user does not exist")
+	}
+
 	return user, nil
 }
