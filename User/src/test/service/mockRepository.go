@@ -25,7 +25,11 @@ func (userMockRepository *MockUserRepository) CreateUser(user domain.User) (doma
 		Password:    user.Password,
 	})
 
-	return  user,nil
+	return   domain.User{
+		ID:       uint64(len(userMockRepository.users)) + 1,
+		Email:     user.Email,
+		Password:    user.Password,
+	},nil
 }
 
 func (userMockRepository *MockUserRepository) FindUserById(userId uint64) (domain.User,error){
