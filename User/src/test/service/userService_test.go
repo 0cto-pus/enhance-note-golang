@@ -1,6 +1,7 @@
 package service
 
 import (
+	"enhanced-notes/config"
 	"enhanced-notes/src/domain"
 	"enhanced-notes/src/dto"
 	"enhanced-notes/src/helper"
@@ -29,7 +30,8 @@ func TestMain(m *testing.M){
 	}
 	mockRepository := NewMockUserRepository(initialUsers)
 	auth = helper.SetupAuth("enhance-notes-2024")
-	userService =service.NewUserService(mockRepository,auth)
+	cfg , _:= config.SetupEnv()
+	userService =service.NewUserService(mockRepository,auth,cfg)
 	exitCode:=m.Run()
 	os.Exit(exitCode)
 }

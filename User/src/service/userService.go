@@ -23,10 +23,11 @@ type UserService struct {
 
 
 
-func NewUserService(userRepository repository.IUserRepository, auth helper.Auth) IUserService{
+func NewUserService(userRepository repository.IUserRepository, auth helper.Auth, config config.AppConfig ) IUserService{
     return &UserService{
         userRepository: userRepository,
         Auth: auth,
+        Config: config,
     }
 }
 
