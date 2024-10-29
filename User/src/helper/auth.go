@@ -69,7 +69,7 @@ func (auth Auth) VerifyPassword(plainPassword string, hashedPassword string) err
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 
 	if err != nil {
-		return errors.New("password does not match")
+		return errors.New("password is incorrect")
 	}
 
 	return nil

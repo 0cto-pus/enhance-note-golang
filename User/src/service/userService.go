@@ -35,8 +35,14 @@ func NewUserService(userRepository repository.IUserRepository, auth helper.Auth,
 func(userService *UserService) Login(userInput dto.UserLogin)(string, error){
     user, err := userService.FindUserByEmail(userInput.Email)
     if err != nil {
+        return "",errors.New("email or password is incorrect")
+    }
+    err = userService.Auth.VerifyPassword(userInput.Password, user.Password)
+
+    if err != nil {
         return "",errors.New("invalid credentials")
     }
+
     return userService.Auth.GenerateToken(user.ID, user.Email)
 }
 
