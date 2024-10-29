@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -30,6 +31,15 @@ func StartServer(config config.AppConfig){
 	}
 	log.Println("migration successful") 
 
+	// cors configuration
+	c := cors.New(cors.Config{
+		AllowOrigins: []string{"http://localhost:9000"},
+		AllowHeaders: []string{"Content-Type", "Accept", "Authorization"},
+		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+	})
+
+	app.Use(c)
+
 	auth := helper.SetupAuth(config.AppSecret)
 
 	rh := &rest.RestHandler{
@@ -46,5 +56,6 @@ func StartServer(config config.AppConfig){
 }	
 
 func setupRoutes(rh *rest.RestHandler) {
-	handler.SetupUserRoutes()
+	//User Routes
+	handler.SetupUserRoutes(rh)
 }

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"enhanced-notes/config"
 	"enhanced-notes/src/domain"
 	"enhanced-notes/src/dto"
 	"enhanced-notes/src/helper"
@@ -19,7 +20,7 @@ func TestMain(m *testing.M){
 		{
 		ID: 1,
 		Email: "test@test.com",
-		Password: "testing123app",
+		Password: "$2a$10$WVgDGLFlqvdjpRxSjrwv5u532KJp130adGrX0hOaKApe2VTV0M0P.",
 		},
 		{
 		ID: 2,
@@ -29,7 +30,8 @@ func TestMain(m *testing.M){
 	}
 	mockRepository := NewMockUserRepository(initialUsers)
 	auth = helper.SetupAuth("enhance-notes-2024")
-	userService =service.NewUserService(mockRepository,auth)
+	cfg , _:= config.SetupEnv()
+	userService =service.NewUserService(mockRepository,auth,cfg)
 	exitCode:=m.Run()
 	os.Exit(exitCode)
 }
@@ -47,7 +49,7 @@ func Test_ShouldSignUpAndPassToken(t *testing.T){
 }
 
 func Test_ShouldLoginAndPassToken(t *testing.T){
-	t.Run("ShouldFindUserByMail", func(t *testing.T) {
+	t.Run("ShouldLoginAndPassToken", func(t *testing.T) {
 		token, _:=userService.Login(dto.UserLogin{Email: "test@test.com", Password: "testing123app"} )
 		bearerToken := "Bearer " + token
 		user, err := auth.VerifyToken(bearerToken)
