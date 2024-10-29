@@ -35,7 +35,7 @@ func TestMain(m *testing.M){
 }
 
 
-func Test_ShouldCreateUserAndPassToken(t *testing.T){
+func Test_ShouldSignUpAndPassToken(t *testing.T){
 	t.Run("ShouldCreateUserAndPassToken", func(t *testing.T) {
 		initialUser := dto.UserSignUp{UserLogin: dto.UserLogin{Email:"test3@test.com", Password:"testtest123123"}} 
 		token, _:=userService.SignUp(initialUser)
@@ -43,6 +43,16 @@ func Test_ShouldCreateUserAndPassToken(t *testing.T){
 		user, err := auth.VerifyToken(bearerToken)
 		assert.NoError(t, err)
 		assert.Equal(t, user.Email, initialUser.Email)	
+	})
+}
+
+func Test_ShouldLoginAndPassToken(t *testing.T){
+	t.Run("ShouldFindUserByMail", func(t *testing.T) {
+		token, _:=userService.Login(dto.UserLogin{Email: "test@test.com", Password: "testing123app"} )
+		bearerToken := "Bearer " + token
+		user, err := auth.VerifyToken(bearerToken)
+		assert.NoError(t, err)
+		assert.Equal(t, "test@test.com", user.Email)	
 	})
 }
 
