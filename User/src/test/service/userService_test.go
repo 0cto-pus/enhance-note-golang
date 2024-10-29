@@ -20,7 +20,7 @@ func TestMain(m *testing.M){
 		{
 		ID: 1,
 		Email: "test@test.com",
-		Password: "testing123app",
+		Password: "$2a$10$WVgDGLFlqvdjpRxSjrwv5u532KJp130adGrX0hOaKApe2VTV0M0P.",
 		},
 		{
 		ID: 2,
@@ -49,7 +49,7 @@ func Test_ShouldSignUpAndPassToken(t *testing.T){
 }
 
 func Test_ShouldLoginAndPassToken(t *testing.T){
-	t.Run("ShouldFindUserByMail", func(t *testing.T) {
+	t.Run("ShouldLoginAndPassToken", func(t *testing.T) {
 		token, _:=userService.Login(dto.UserLogin{Email: "test@test.com", Password: "testing123app"} )
 		bearerToken := "Bearer " + token
 		user, err := auth.VerifyToken(bearerToken)
