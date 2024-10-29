@@ -45,3 +45,11 @@ func Test_ShouldCreateUserAndPassToken(t *testing.T){
 		assert.Equal(t, user.Email, initialUser.Email)	
 	})
 }
+
+func Test_ShouldFindUserByMail(t *testing.T){
+	t.Run("ShouldFindUserByMail", func(t *testing.T) {
+		user, err:=userService.FindUserByEmail("test@test.com")
+		assert.NoError(t, err)
+		assert.Equal(t, "test@test.com", user.Email)	
+	})
+}
