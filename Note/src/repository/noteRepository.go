@@ -41,7 +41,6 @@ func (noteRepository *NoteRepository) FindNoteById(userId uint64) (domain.Note, 
 	return foundNote, nil
 }
 
-// GetAllNotesByUserId belirtilen kullanıcı ID'sine göre tüm notları döndürür
 func (noteRepository *NoteRepository) GetAllNotesByUserId(userId uint64) ([]domain.Note, error) {
 	var notes []domain.Note
 	if err := noteRepository.db.Where("user_id = ?", userId).Find(&notes).Error; err != nil {
