@@ -32,13 +32,13 @@ func NewNoteService(noteRepository repository.INoteRepository, auth helper.Auth,
 
 
 func(noteService *NoteService) CreateNote(userInput dto.NoteCreate, userId uint64)(domain.Note, error){
-  // Oluşturulan Note'u hazırlıyoruz
+
   note := domain.Note{
         UserID:  userId,
         Content: userInput.Content,
     }
 
-// Repository ile Note'u kaydediyoruz
+
     createdNote, err := noteService.noteRepository.CreateNote(note)
     if err != nil {
             return domain.Note{}, errors.New("failed to create note")
