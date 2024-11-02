@@ -1,15 +1,17 @@
 package service
 
-/* import (
+import (
 	"enhance-notes-note-service/config"
+	"enhance-notes-note-service/src/domain"
 	"enhance-notes-note-service/src/dto"
 	"enhance-notes-note-service/src/helper"
 	"enhance-notes-note-service/src/repository"
+	"errors"
 )
 
 type INoteService interface {
-    Login(userInput dto.UserLogin)(string, error)
-    SignUp(userInput dto.UserSignUp) (string,error)
+    CreateNote(note dto.NoteCreate, userId uint64)(domain.Note, error)
+    GetUserNotes(userId uint64) ([]domain.Note,error)
 }
 
 type NoteService struct {
@@ -29,10 +31,27 @@ func NewNoteService(noteRepository repository.INoteRepository, auth helper.Auth,
 }
 
 
-func(noteService *NoteService) Login(userInput dto.UserLogin)(string, error){
-  return "", nil
+func(noteService *NoteService) CreateNote(userInput dto.NoteCreate, userId uint64)(domain.Note, error){
+
+  note := domain.Note{
+        UserID:  userId,
+        Content: userInput.Content,
+    }
+
+
+    createdNote, err := noteService.noteRepository.CreateNote(note)
+    if err != nil {
+            return domain.Note{}, errors.New("failed to create note")
+    }
+
+    return createdNote, nil
 }
 
-func(noteService *NoteService) SignUp(userInput dto.UserSignUp) (string, error){
- return "", nil
-} */
+func(noteService *NoteService) GetUserNotes(userId uint64) ([]domain.Note,error){
+    notes, err := noteService.noteRepository.GetAllNotesByUserId(userId)
+    if err != nil {
+        return nil, errors.New("failed to retrieve user notes")
+    }
+
+    return notes, nil
+} 

@@ -9,7 +9,7 @@ import (
 
 type INoteRepository interface {
 	CreateNote(note domain.Note) (domain.Note, error)
-	FindNoteByUserId(userId uint64) (domain.Note, error)
+	FindNoteById(noteId uint64) (domain.Note, error)
 	GetAllNotesByUserId(userId uint64) ([]domain.Note,error)
 	FindSelectedNotes(noteIds []uint64) ([]domain.Note, error)
 }
@@ -31,9 +31,9 @@ func (noteRepository *NoteRepository) CreateNote(note domain.Note) (domain.Note,
 	return note, nil
 }
 
-func (noteRepository *NoteRepository) FindNoteByUserId(userId uint64) (domain.Note, error) {
+func (noteRepository *NoteRepository) FindNoteById(noteId uint64) (domain.Note, error) {
 	var foundNote domain.Note
-	if err := noteRepository.db.First(&foundNote, userId).Error; err != nil {
+	if err := noteRepository.db.Where("id = ?", noteId).First(&foundNote).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return domain.Note{}, errors.New("note not found")
 		}

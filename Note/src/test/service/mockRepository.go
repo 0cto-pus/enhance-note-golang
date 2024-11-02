@@ -1,51 +1,60 @@
 package service
 
-/* import (
-	"enhanced-notes/src/domain"
-	"enhanced-notes/src/repository"
+import (
+	"enhance-notes-note-service/src/domain"
+	"enhance-notes-note-service/src/repository"
 	"fmt"
 )
 
 
 type MockUserRepository struct{
-	users  []domain.User
+	notes  []domain.Note
 }
 
-func NewMockUserRepository(mockUsers []domain.User) repository.IUserRepository{
+func NewMockNoteRepository(mockNotes []domain.Note) repository.INoteRepository{
 	return &MockUserRepository{
-		users: mockUsers,
+		notes: mockNotes,
 	}
 }
 
-
-func (userMockRepository *MockUserRepository) CreateUser(user domain.User) (domain.User, error){
-	userMockRepository.users = append(userMockRepository.users, domain.User{
-		ID:       uint64(len(userMockRepository.users)) + 1,
-		Email:     user.Email,
-		Password:    user.Password,
+func (noteRepository *MockUserRepository) CreateNote(note domain.Note) (domain.Note, error) {
+	noteRepository.notes = append(noteRepository.notes, domain.Note{
+		ID: uint64(len(noteRepository.notes))+1,
+		UserID: note.UserID,
+		Content: note.Content,
 	})
-
-	return   domain.User{
-		ID:       uint64(len(userMockRepository.users)) + 1,
-		Email:     user.Email,
-		Password:    user.Password,
-	},nil
+	return domain.Note{ID: uint64(len(noteRepository.notes))+1,
+		UserID: note.UserID,
+		Content: note.Content,}, nil
 }
 
-func (userMockRepository *MockUserRepository) FindUserById(userId uint64) (domain.User,error){
-	for _, user := range userMockRepository.users {
-        if user.ID == userId {
-            return user, nil
-        }
-    }
-    return domain.User{}, fmt.Errorf("user with ID %v not found", userId)
+func (noteRepository *MockUserRepository) FindNoteById(noteId uint64) (domain.Note, error) {
+	for _, note := range noteRepository.notes {
+		if note.ID == noteId{
+			return note,nil
+		}
+	}
+	
+	return domain.Note{}, fmt.Errorf("note with ID %v not found", noteId)
 }
 
-func (userMockRepository *MockUserRepository) GetUserByEmail(email string) (domain.User, error) {
-	for _, user := range userMockRepository.users {
-        if user.Email == email {
-            return user, nil
-        }
-    }
-    return domain.User{}, fmt.Errorf("user with email %v not found", email)
-} */
+func (noteRepository *MockUserRepository) GetAllNotesByUserId(userId uint64) ([]domain.Note, error) {
+	var foundNotes []domain.Note
+	for _, note := range noteRepository.notes{
+		if note.UserID == userId{
+			foundNotes = append(foundNotes, note)
+		}
+	}
+
+	return foundNotes,nil
+}
+
+func (noteRepository *MockUserRepository) FindSelectedNotes(noteIds []uint64) ([]domain.Note, error) {
+	var foundNotes []domain.Note
+	for i , note := range noteRepository.notes{
+		if note.ID == noteIds[i]{
+			foundNotes = append(foundNotes, note)
+		}
+	}
+	return foundNotes,nil
+}
