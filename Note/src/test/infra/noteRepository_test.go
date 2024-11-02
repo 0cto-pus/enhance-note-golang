@@ -102,3 +102,32 @@ func TestCreateNote(t *testing.T){
 	clear(ctx, db)
 }  
 
+func TestFindSelectedNotes(t *testing.T){
+	notes := []domain.Note{
+		{ID:1, UserID: 1, Content: "Deneme Note1"},
+		{ID:2,UserID: 1, Content: "Deneme Note1"},
+		{ID:3,UserID: 2, Content: "Deneme Note1"},
+	}
+
+	 t.Run("FindSelectedNotes", func(t *testing.T) {
+
+		for _, note := range notes {
+			_, err := noteRepository.CreateNote(note)
+			if err != nil {
+				t.Fatalf("Failed to create note: %v", err)
+			}
+		}
+
+		foundNotes, err := noteRepository.FindSelectedNotes([]uint64{1,2,3})
+
+
+		assert.NoError(t, err, "Error should be nil for user ID 1")
+
+		assert.Equal(t, notes[0].Content, foundNotes[0].Content)
+		assert.Equal(t, notes[0].ID, foundNotes[0].ID)
+		assert.Equal(t, notes[2].Content, foundNotes[2].Content)
+		assert.Equal(t, notes[2].ID, foundNotes[2].ID)
+	})
+	clear(ctx, db)
+}  
+
