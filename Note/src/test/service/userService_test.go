@@ -1,67 +1,61 @@
 package service
 
-/* import (
-	"enhanced-notes/config"
-	"enhanced-notes/src/domain"
-	"enhanced-notes/src/dto"
-	"enhanced-notes/src/helper"
-	"enhanced-notes/src/service"
+import (
+	"enhance-notes-note-service/config"
+	"enhance-notes-note-service/src/domain"
+	"enhance-notes-note-service/src/dto"
+	"enhance-notes-note-service/src/helper"
+	"enhance-notes-note-service/src/service"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var userService service.IUserService
+var noteService service.INoteService
 var auth helper.Auth
 
 func TestMain(m *testing.M){
-	initialUsers := []domain.User{
+	 initialUsers := []domain.Note{
 		{
 		ID: 1,
-		Email: "test@test.com",
-		Password: "$2a$10$WVgDGLFlqvdjpRxSjrwv5u532KJp130adGrX0hOaKApe2VTV0M0P.",
+		UserID: 1,
+		Content: "This is my note",
 		},
 		{
 		ID: 2,
-		Email: "test1@test.com",
-		Password: "testing123app",
+		UserID: 1,
+		Content: "This is my note",
 		},
-	}
-	mockRepository := NewMockUserRepository(initialUsers)
+		{
+		ID: 3,
+		UserID: 2,
+		Content: "This is my note",
+		},
+	} 
+
+	mockRepository := NewMockNoteRepository(initialUsers)
 	auth = helper.SetupAuth("enhance-notes-2024")
 	cfg , _:= config.SetupEnv()
-	userService =service.NewUserService(mockRepository,auth,cfg)
+	noteService =service.NewNoteService(mockRepository,auth,cfg)
 	exitCode:=m.Run()
 	os.Exit(exitCode)
 }
 
 
-func Test_ShouldSignUpAndPassToken(t *testing.T){
-	t.Run("ShouldCreateUserAndPassToken", func(t *testing.T) {
-		initialUser := dto.UserSignUp{UserLogin: dto.UserLogin{Email:"test3@test.com", Password:"testtest123123"}}
-		token, _:=userService.SignUp(initialUser)
-		bearerToken := "Bearer " + token
-		user, err := auth.VerifyToken(bearerToken)
+func Test_ShouldCreateNote(t *testing.T){
+	t.Run("ShouldCreateNote", func(t *testing.T) {
+		note, err:= noteService.CreateNote(dto.NoteCreate{Content: "My new test note"}, 1)
 		assert.NoError(t, err)
-		assert.Equal(t, user.Email, initialUser.Email)
+		assert.Equal(t, "My new test note", note.Content)
+		assert.Equal(t, uint64(1), note.UserID)	
 	})
 }
 
-func Test_ShouldLoginAndPassToken(t *testing.T){
-	t.Run("ShouldLoginAndPassToken", func(t *testing.T) {
-		token, _:=userService.Login(dto.UserLogin{Email: "test@test.com", Password: "testing123app"} )
-		bearerToken := "Bearer " + token
-		user, err := auth.VerifyToken(bearerToken)
+func Test_ShouldGetUserNotes(t *testing.T){
+	t.Run("ShouldGetUserNotes", func(t *testing.T) {
+		notes, err:= noteService.GetUserNotes( 1)
 		assert.NoError(t, err)
-		assert.Equal(t, "test@test.com", user.Email)
+		assert.Equal(t, 3, len(notes))
 	})
 }
-
-func Test_ShouldFindUserByMail(t *testing.T){
-	t.Run("ShouldFindUserByMail", func(t *testing.T) {
-		user, err:=userService.FindUserByEmail("test@test.com")
-		assert.NoError(t, err)
-		assert.Equal(t, "test@test.com", user.Email)
-	})
-} */
