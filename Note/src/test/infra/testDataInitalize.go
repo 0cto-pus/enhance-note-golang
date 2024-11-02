@@ -2,7 +2,7 @@ package infra
 
 import (
 	"context"
-	"enhanced-notes/src/domain"
+	"enhance-notes-note-service/src/domain"
 	"fmt"
 
 	"github.com/labstack/gommon/log"
@@ -10,9 +10,9 @@ import (
 )
 
 func TestDataInitialize(ctx context.Context, db *gorm.DB) {
-	testData := domain.User{
-		Email: "test@test.com",
-		Password: "hash-pass-mock",
+	testData := domain.Note{
+		UserID: 1,
+		Content: "Deneme Note",
 	 }
 	 err := db.Create(&testData).Error
 	

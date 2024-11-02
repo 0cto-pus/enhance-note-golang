@@ -2,8 +2,8 @@ package infra
 
 import (
 	"context"
-	"enhanced-notes/src/domain"
-	"enhanced-notes/src/repository"
+	"enhance-notes-note-service/src/domain"
+	"enhance-notes-note-service/src/repository"
 	"os"
 	"testing"
 
@@ -12,13 +12,12 @@ import (
 	"gorm.io/gorm"
 )
 
-var userRepository repository.IUserRepository
+var noteRepository repository.INoteRepository
 var db *gorm.DB
 var ctx context.Context
 
 func TestMain(m *testing.M){
-
-	var dsn string = "host=127.0.0.1 user=postgres password=root dbname=postgres port=6432 sslmode=disable"
+	var dsn string = "host=127.0.0.1 user=postgres password=root dbname=postgres port=6433 sslmode=disable"
 	gormOpen, err := gorm.Open(postgres.Open(dsn), &gorm.Config{});
 
 	db = gormOpen;
@@ -26,8 +25,12 @@ func TestMain(m *testing.M){
 		panic( err)
 	}
 
+	err = db.AutoMigrate(&domain.Note{})
 
-	userRepository = repository.NewUserRepository(db)
+	if err != nil {
+		panic( err)
+	}
+	noteRepository = repository.NewNoteRepository(db)
 	exitCode := m.Run()
 	os.Exit(exitCode)
 
@@ -39,24 +42,23 @@ func clear(ctx context.Context, db *gorm.DB) {
 	TruncateTestData(ctx, db)
 }
 
-func TestCreateUser(t *testing.T){
+func TestCreateNote(t *testing.T){
 
-	 newUser := domain.User{
-		Email: "test@test.com",
-		Password: "hash-pass-mock",
+	newNote := domain.Note{
+		UserID: 1,
+		Content: "Deneme Note",
 	 }
 
-	 t.Run("CreateUser", func(t *testing.T) {
-		userRepository.CreateUser(newUser)
-		addedUser, _ := userRepository.FindUserById(1)
+	 t.Run("CreateNote", func(t *testing.T) {
+		noteRepository.CreateNote(newNote)
+		addedUser, _ := noteRepository.FindNoteByUserId(1)
 		
-		assert.Equal(t, domain.User{
+		assert.Equal(t, domain.Note{
 			ID: 1,
-			Email: "test@test.com",
-			Password: "hash-pass-mock",
+			UserID: 1,
+			Content: "Deneme Note",
 			CreatedAt: addedUser.CreatedAt,
 			UpdatedAt: addedUser.UpdatedAt,}, addedUser)
 	})
 	clear(ctx, db)
-
 }

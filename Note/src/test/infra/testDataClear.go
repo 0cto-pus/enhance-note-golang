@@ -9,9 +9,9 @@ import (
 
 func TruncateTestData(ctx context.Context, db *gorm.DB) {
 	// 'Products' tablosunun içeriğini temizlemek için doğrudan SQL komutu kullanılır.
-	truncateErr := db.WithContext(ctx).Exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE").Error
+	truncateErr := db.WithContext(ctx).Exec("TRUNCATE TABLE notes RESTART IDENTITY CASCADE").Error
 	if truncateErr != nil {
-		log.Errorf("Failed to truncate products table: %v", truncateErr)
+		log.Errorf("Failed to truncate notes table: %v", truncateErr)
 	} else {
 		log.Info("Products table truncated successfully")
 	}
