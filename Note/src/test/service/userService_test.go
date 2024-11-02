@@ -1,6 +1,6 @@
 package service
 
-import (
+/* import (
 	"enhanced-notes/config"
 	"enhanced-notes/src/domain"
 	"enhanced-notes/src/dto"
@@ -39,12 +39,12 @@ func TestMain(m *testing.M){
 
 func Test_ShouldSignUpAndPassToken(t *testing.T){
 	t.Run("ShouldCreateUserAndPassToken", func(t *testing.T) {
-		initialUser := dto.UserSignUp{UserLogin: dto.UserLogin{Email:"test3@test.com", Password:"testtest123123"}} 
+		initialUser := dto.UserSignUp{UserLogin: dto.UserLogin{Email:"test3@test.com", Password:"testtest123123"}}
 		token, _:=userService.SignUp(initialUser)
 		bearerToken := "Bearer " + token
 		user, err := auth.VerifyToken(bearerToken)
 		assert.NoError(t, err)
-		assert.Equal(t, user.Email, initialUser.Email)	
+		assert.Equal(t, user.Email, initialUser.Email)
 	})
 }
 
@@ -54,7 +54,7 @@ func Test_ShouldLoginAndPassToken(t *testing.T){
 		bearerToken := "Bearer " + token
 		user, err := auth.VerifyToken(bearerToken)
 		assert.NoError(t, err)
-		assert.Equal(t, "test@test.com", user.Email)	
+		assert.Equal(t, "test@test.com", user.Email)
 	})
 }
 
@@ -62,6 +62,6 @@ func Test_ShouldFindUserByMail(t *testing.T){
 	t.Run("ShouldFindUserByMail", func(t *testing.T) {
 		user, err:=userService.FindUserByEmail("test@test.com")
 		assert.NoError(t, err)
-		assert.Equal(t, "test@test.com", user.Email)	
+		assert.Equal(t, "test@test.com", user.Email)
 	})
-}
+} */

@@ -1,6 +1,6 @@
 package service
 
-import (
+/* import (
 	"enhanced-notes/src/domain"
 	"enhanced-notes/src/repository"
 	"fmt"
@@ -48,4 +48,4 @@ func (userMockRepository *MockUserRepository) GetUserByEmail(email string) (doma
         }
     }
     return domain.User{}, fmt.Errorf("user with email %v not found", email)
-}
+} */

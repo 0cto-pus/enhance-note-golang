@@ -1,6 +1,6 @@
 package rest
 
-import (
+/* import (
 	"enhance-notes-note-service/config"
 	"enhance-notes-note-service/src/helper"
 
@@ -13,4 +13,4 @@ type RestHandler struct {
 	DB *gorm.DB
 	Auth helper.Auth
 	Config config.AppConfig
-}
+} */

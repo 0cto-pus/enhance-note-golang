@@ -1,6 +1,6 @@
 package api
 
-import (
+/* import (
 	"enhance-notes-note-service/config"
 	"enhance-notes-note-service/src/api/rest"
 	"enhance-notes-note-service/src/api/rest/handler"
@@ -27,9 +27,9 @@ func StartServer(config config.AppConfig){
 
 	err = db.AutoMigrate(&domain.Note{})
 	if err != nil {
-		log.Fatalf("error on running migration %v", err.Error()) 
+		log.Fatalf("error on running migration %v", err.Error())
 	}
-	log.Println("migration successful") 
+	log.Println("migration successful")
 
 	// cors configuration
 	c := cors.New(cors.Config{
@@ -53,9 +53,10 @@ func StartServer(config config.AppConfig){
 
 	app.Listen(config.ServerPort)
 
-}	
+}
 
 func setupRoutes(rh *rest.RestHandler) {
 	//User Routes
 	handler.SetupNoteRoutes(rh)
 }
+*/

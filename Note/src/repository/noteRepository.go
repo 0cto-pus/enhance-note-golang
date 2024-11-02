@@ -9,8 +9,9 @@ import (
 
 type INoteRepository interface {
 	CreateNote(note domain.Note) (domain.Note, error)
-	FindNoteById(userId uint64) (domain.Note, error)
+	FindNoteByUserId(userId uint64) (domain.Note, error)
 	GetAllNotesByUserId(userId uint64) ([]domain.Note,error)
+	FindSelectedNotes(noteIds []uint64) ([]domain.Note, error)
 }
 
 type NoteRepository struct{
@@ -30,7 +31,7 @@ func (noteRepository *NoteRepository) CreateNote(note domain.Note) (domain.Note,
 	return note, nil
 }
 
-func (noteRepository *NoteRepository) FindNoteById(userId uint64) (domain.Note, error) {
+func (noteRepository *NoteRepository) FindNoteByUserId(userId uint64) (domain.Note, error) {
 	var foundNote domain.Note
 	if err := noteRepository.db.First(&foundNote, userId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -46,5 +47,15 @@ func (noteRepository *NoteRepository) GetAllNotesByUserId(userId uint64) ([]doma
 	if err := noteRepository.db.Where("user_id = ?", userId).Find(&notes).Error; err != nil {
 		return nil, err
 	}
+	return notes, nil
+}
+
+func (noteRepository *NoteRepository) FindSelectedNotes(noteIds []uint64) ([]domain.Note, error) {
+	var notes []domain.Note
+
+	if err := noteRepository.db.Where("id IN ?", noteIds).Find(&notes).Error; err != nil {
+		return nil, errors.New("unable to find notes")
+	}
+
 	return notes, nil
 }

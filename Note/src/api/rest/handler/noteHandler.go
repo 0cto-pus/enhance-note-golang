@@ -1,6 +1,6 @@
 package handler
 
-import (
+/* import (
 	"enhance-notes-note-service/src/api/rest"
 	"enhance-notes-note-service/src/repository"
 	"enhance-notes-note-service/src/service"
@@ -39,4 +39,4 @@ func (handler *NoteController) SignUp(ctx fiber.Ctx) error {
 
 func (handler *NoteController) Login(ctx fiber.Ctx) error {
 	return nil
-}
+} */

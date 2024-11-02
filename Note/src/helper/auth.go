@@ -1,6 +1,6 @@
 package helper
 
-import (
+/* import (
 	"enhance-notes-note-service/src/domain"
 	"errors"
 	"fmt"
@@ -132,4 +132,4 @@ func (auth Auth) GetCurrentUser(ctx fiber.Ctx) domain.User {
 	user := ctx.Locals("user")
 	return user.(domain.User)
 
-}
+} */
