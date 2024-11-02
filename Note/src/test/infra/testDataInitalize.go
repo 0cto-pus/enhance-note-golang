@@ -12,7 +12,7 @@ import (
 func TestDataInitialize(ctx context.Context, db *gorm.DB) {
 	testData := domain.Note{
 		UserID: 1,
-		Content: "Deneme Note",
+		Content: "Test Note",
 	 }
 	 err := db.Create(&testData).Error
 	

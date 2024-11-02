@@ -69,6 +69,8 @@ func TestCreateNote(t *testing.T){
 
  
   func TestGetAllNotesByUserId(t *testing.T){
+
+	
 	notes := []domain.Note{
 		{UserID: 1, Content: "Deneme Note1"},
 		{UserID: 1, Content: "Deneme Note1"},
