@@ -1,6 +1,6 @@
 package main
 
-/* import (
+import (
 	"enhance-notes-note-service/config"
 	"enhance-notes-note-service/src/api"
 	"log"
@@ -14,4 +14,4 @@ func main() {
 	}
 
 	api.StartServer(cfg)
-} */
+} 
