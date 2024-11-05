@@ -1,6 +1,6 @@
 package config
 
-/* import (
+import (
 	"errors"
 	"os"
 
@@ -34,4 +34,4 @@ func SetupEnv() (cfg AppConfig, err error) {
 		return AppConfig{}, errors.New("app secret not found")
 	}
 	return AppConfig{ServerPort: httpPort, Dsn: Dsn, AppSecret: appSecret,}, nil
-} */
+} 

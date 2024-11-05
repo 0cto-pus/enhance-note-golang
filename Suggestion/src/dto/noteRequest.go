@@ -1,7 +1,7 @@
 package dto
 
-/*
-type NoteCreate struct {
-	UserId  string `json:"userId"`
-	Content string `json:"Content"`
-} */
+type SuggestioneCreate struct {
+	NoteId     string `json:"noteId"`
+	UserId     string `json:"userId"`
+	Suggestion string `json:"suggestion"`
+}
