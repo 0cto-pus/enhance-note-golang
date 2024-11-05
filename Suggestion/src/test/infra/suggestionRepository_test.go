@@ -38,9 +38,6 @@ func TestMain(m *testing.M){
 	os.Exit(exitCode)
 
 }
-func setup(ctx context.Context, db *gorm.DB) {
-	TestDataInitialize(ctx, db)
-}
 func clear(ctx context.Context, db *gorm.DB) {
 	TruncateTestData(ctx, db)
 }
@@ -76,19 +73,19 @@ func TestCreateNote(t *testing.T){
 		{ID: 1,
 			UserID: 1,
 			NoteID: 1,
-			Suggestion: "Deneme deneme", },
+			Suggestion: "test", },
 		{ID: 2,
 			UserID: 1,
 			NoteID: 2,
-			Suggestion: "Deneme deneme", },
+			Suggestion: "test", },
 		{ID: 3,
 			UserID: 2,
 			NoteID: 3,
-			Suggestion: "Deneme deneme", },
+			Suggestion: "test", },
 	}
 
-	expectedSuggestionsByUserIdOne := suggestions[:2] // Kullanıcı ID 1 için beklenen notlar
-	expectedSuggestionsByUserIdTwo := suggestions[2:]  // Kullanıcı ID 2 için beklenen notlar
+	expectedSuggestionsByUserIdOne := suggestions[:2]
+	expectedSuggestionsByUserIdTwo := suggestions[2:] 
 
 	 t.Run("GetAllNotesByUserId", func(t *testing.T) {
 

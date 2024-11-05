@@ -1,6 +1,6 @@
 package helper
 
-/* import (
+import (
 	"errors"
 	"fmt"
 	"strings"
@@ -72,4 +72,4 @@ func (auth Auth) GetCurrentUserID(ctx fiber.Ctx) uint64 {
 		return 0
 	}
 	return userID
-} */
+}
