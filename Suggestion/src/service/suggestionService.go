@@ -10,7 +10,7 @@ import (
 )
 
 type ISuggestionService interface {
-    CreateNote(note dto.SuggestioneCreate, userId uint64)(domain.Suggestion, error)
+    CreateSuggestion(note dto.SuggestioneCreate, userId uint64,noteId uint64)(domain.Suggestion, error)
     GetUserNotes(userId uint64) ([]domain.Suggestion,error)
 }
 
