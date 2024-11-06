@@ -10,7 +10,7 @@ import (
 )
 
 type ISuggestionService interface {
-    CreateSuggestion(note dto.SuggestioneCreate, userId uint64,noteId uint64)(domain.Suggestion, error)
+    CreateSuggestion(note dto.SuggestioneCreate, userId uint64)(domain.Suggestion, error)
     GetUserSuggestions(userId uint64) ([]domain.Suggestion,error)
 }
 
@@ -31,10 +31,10 @@ func NewSuggestionService(suggestionRepository repository.ISuggestionRepository,
 }
 
 
-func(SuggestionService *SuggestionService) CreateSuggestion(userInput dto.SuggestioneCreate, userId uint64, noteId uint64)(domain.Suggestion, error){
+func(SuggestionService *SuggestionService) CreateSuggestion(userInput dto.SuggestioneCreate, userId uint64)(domain.Suggestion, error){
 
   suggestion := domain.Suggestion{
-        NoteID: noteId,
+        NoteID: userInput.NoteID,
         UserID:  userId,
         Suggestion: userInput.Suggestion,
     }
