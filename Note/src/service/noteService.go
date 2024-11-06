@@ -6,7 +6,9 @@ import (
 	"enhance-notes-note-service/src/dto"
 	"enhance-notes-note-service/src/helper"
 	"enhance-notes-note-service/src/repository"
+	"enhance-notes-note-service/src/service/publisher"
 	"errors"
+	"log"
 )
 
 type INoteService interface {
@@ -43,6 +45,11 @@ func(noteService *NoteService) CreateNote(userInput dto.NoteCreate, userId uint6
     if err != nil {
             return domain.Note{}, errors.New("failed to create note")
     }
+
+    err = publisher.PublishNoteMessage(note.ID, note.Content)
+	if err != nil {
+		log.Printf("Failed to publish message: %v", err)
+	}
 
     return createdNote, nil
 }
