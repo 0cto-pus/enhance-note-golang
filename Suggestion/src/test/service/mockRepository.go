@@ -1,61 +1,66 @@
 package service
 
-/* import (
-	"enhance-notes-note-service/src/domain"
-	"enhance-notes-note-service/src/repository"
+import (
+	"enhance-notes-suggestion/src/domain"
+	"enhance-notes-suggestion/src/repository"
 	"fmt"
 )
 
 
 type MockUserRepository struct{
-	notes  []domain.Note
+	suggestions  []domain.Suggestion
 }
 
-func NewMockNoteRepository(mockNotes []domain.Note) repository.INoteRepository{
+func NewMockSuggestionRepository(mockSuggestions []domain.Suggestion) repository.ISuggestionRepository{
 	return &MockUserRepository{
-		notes: mockNotes,
+		suggestions: mockSuggestions,
 	}
 }
 
-func (noteRepository *MockUserRepository) CreateNote(note domain.Note) (domain.Note, error) {
-	noteRepository.notes = append(noteRepository.notes, domain.Note{
-		ID: uint64(len(noteRepository.notes))+1,
-		UserID: note.UserID,
-		Content: note.Content,
+func (suggestionRepository *MockUserRepository) CreateSuggestion(suggestion domain.Suggestion) (domain.Suggestion, error) {
+	suggestionRepository.suggestions = append(suggestionRepository.suggestions, domain.Suggestion{
+		ID: uint64(len(suggestionRepository.suggestions))+1,
+		UserID: suggestion.UserID,
+		NoteID: suggestion.NoteID,
+		Suggestion: suggestion.Suggestion,
 	})
-	return domain.Note{ID: uint64(len(noteRepository.notes))+1,
-		UserID: note.UserID,
-		Content: note.Content,}, nil
+	return domain.Suggestion{
+		ID: uint64(len(suggestionRepository.suggestions))+1,
+		UserID: suggestion.UserID,
+		NoteID: suggestion.NoteID,
+		Suggestion: suggestion.Suggestion,
+	}, nil
 }
 
-func (noteRepository *MockUserRepository) FindNoteById(noteId uint64) (domain.Note, error) {
-	for _, note := range noteRepository.notes {
+func (suggestionRepository *MockUserRepository) FindSuggestionById(noteId uint64) (domain.Suggestion, error) {
+	
+	for _, note := range suggestionRepository.suggestions {
 		if note.ID == noteId{
 			return note,nil
 		}
 	}
-
-	return domain.Note{}, fmt.Errorf("note with ID %v not found", noteId)
+	
+	return domain.Suggestion{}, fmt.Errorf("note with ID %v not found", noteId)
 }
 
-func (noteRepository *MockUserRepository) GetAllNotesByUserId(userId uint64) ([]domain.Note, error) {
-	var foundNotes []domain.Note
-	for _, note := range noteRepository.notes{
-		if note.UserID == userId{
-			foundNotes = append(foundNotes, note)
+func (suggestionRepository *MockUserRepository) GetAllSuggestionsByUserId(userId uint64) ([]domain.Suggestion, error) {
+	var foundSuggestions []domain.Suggestion
+	for _, suggestion := range suggestionRepository.suggestions{
+		if suggestion.UserID == userId{
+			foundSuggestions = append(foundSuggestions, suggestion)
 		}
 	}
 
-	return foundNotes,nil
+	return foundSuggestions,nil
 }
 
-func (noteRepository *MockUserRepository) FindSelectedNotes(noteIds []uint64) ([]domain.Note, error) {
-	var foundNotes []domain.Note
-	for i , note := range noteRepository.notes{
-		if note.ID == noteIds[i]{
-			foundNotes = append(foundNotes, note)
+
+func (suggestionRepository *MockUserRepository) FindSelectedSuggestions(suggestionIds []uint64) ([]domain.Suggestion, error) {
+	var foundSuggestions []domain.Suggestion
+	for i , suggestion := range suggestionRepository.suggestions{
+		if suggestion.ID == suggestionIds[i]{
+			foundSuggestions = append(foundSuggestions, suggestion)
 		}
 	}
-	return foundNotes,nil
+	return foundSuggestions,nil
 }
-*/

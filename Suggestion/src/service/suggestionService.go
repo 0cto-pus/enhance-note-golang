@@ -11,7 +11,7 @@ import (
 
 type ISuggestionService interface {
     CreateSuggestion(note dto.SuggestioneCreate, userId uint64,noteId uint64)(domain.Suggestion, error)
-    GetUserNotes(userId uint64) ([]domain.Suggestion,error)
+    GetUserSuggestions(userId uint64) ([]domain.Suggestion,error)
 }
 
 type SuggestionService struct {
@@ -48,7 +48,7 @@ func(SuggestionService *SuggestionService) CreateSuggestion(userInput dto.Sugges
     return createdSuggestion, nil
 }
 
-func(SuggestionService *SuggestionService) GetUserNotes(userId uint64) ([]domain.Suggestion,error){
+func(SuggestionService *SuggestionService) GetUserSuggestions(userId uint64) ([]domain.Suggestion,error){
     suggestions, err := SuggestionService.suggestionRepository.GetAllSuggestionsByUserId(userId)
     if err != nil {
         return nil, errors.New("failed to retrieve user notes")
