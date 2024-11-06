@@ -1,11 +1,11 @@
 package api
 
-/* import (
-	"enhance-notes-note-service/config"
-	"enhance-notes-note-service/src/api/rest"
-	"enhance-notes-note-service/src/api/rest/handler"
-	"enhance-notes-note-service/src/domain"
-	"enhance-notes-note-service/src/helper"
+import (
+	"enhance-notes-suggestion/config"
+	"enhance-notes-suggestion/src/api/rest"
+	"enhance-notes-suggestion/src/api/rest/handler"
+	"enhance-notes-suggestion/src/domain"
+	"enhance-notes-suggestion/src/helper"
 	"log"
 
 	"github.com/gofiber/fiber/v3"
@@ -25,7 +25,7 @@ func StartServer(config config.AppConfig){
 
 	log.Printf("database connected")
 
-	err = db.AutoMigrate(&domain.Note{})
+	err = db.AutoMigrate(&domain.Suggestion{})
 	if err != nil {
 		log.Fatalf("error on running migration %v", err.Error())
 	}
@@ -33,7 +33,7 @@ func StartServer(config config.AppConfig){
 
 	// cors configuration
 	c := cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:9002"},
+		AllowOrigins: []string{"http://localhost:9003"},
 		AllowHeaders: []string{"Content-Type", "Accept", "Authorization"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 	})
@@ -59,4 +59,3 @@ func setupRoutes(rh *rest.RestHandler) {
 	//Note Routes
 	handler.SetupNoteRoutes(rh)
 }
-*/

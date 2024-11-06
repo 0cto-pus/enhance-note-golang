@@ -54,12 +54,12 @@ func (handler *SuggestionController) CreateSuggestion(ctx fiber.Ctx) error {
     _, err := handler.suggestionService.CreateSuggestion(userInput, userId)
     if err != nil {
         return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-            "message": "failed to create note",
+            "message": "failed to create suggestion",
         })
     }
 
     return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-        "message": "Note added",
+        "message": "Suggestion added",
     })
 }
 
@@ -70,15 +70,15 @@ func (handler *SuggestionController) GetUserNotes(ctx fiber.Ctx) error {
             "message": "unauthorized",
         })
     }
-	notes, err := handler.suggestionService.GetUserSuggestions(userId)
+	suggestions, err := handler.suggestionService.GetUserSuggestions(userId)
     if err != nil {
         return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-            "message": "failed to retrieve notes",
+            "message": "failed to retrieve suggestions",
         })
     }
 
 
     return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-        "notes": notes,
+        "suggestion": suggestions,
     })
 }  
