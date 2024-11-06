@@ -1,6 +1,6 @@
 package api
 
-/* import (
+import (
 	"enhance-notes-note-service/config"
 	"enhance-notes-note-service/src/api/rest"
 	"enhance-notes-note-service/src/api/rest/handler"
@@ -33,7 +33,7 @@ func StartServer(config config.AppConfig){
 
 	// cors configuration
 	c := cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:9001"},
+		AllowOrigins: []string{"http://localhost:9002"},
 		AllowHeaders: []string{"Content-Type", "Accept", "Authorization"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 	})
@@ -56,7 +56,6 @@ func StartServer(config config.AppConfig){
 }
 
 func setupRoutes(rh *rest.RestHandler) {
-	//User Routes
+	//Note Routes
 	handler.SetupNoteRoutes(rh)
 }
-*/
