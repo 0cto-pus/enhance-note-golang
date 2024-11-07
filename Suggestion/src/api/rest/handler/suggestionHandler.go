@@ -6,6 +6,7 @@ import (
 	"enhance-notes-suggestion/src/helper"
 	"enhance-notes-suggestion/src/repository"
 	"enhance-notes-suggestion/src/service"
+	"enhance-notes-suggestion/src/service/consumer"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -24,7 +25,7 @@ func NewSuggestionController(service service.ISuggestionService) *SuggestionCont
 func SetupNoteRoutes(rh *rest.RestHandler) {
 	app:=rh.App
 	service := service.NewSuggestionService(repository.NewSuggestionRepository(rh.DB), rh.Auth, rh.Config)
-
+    go consumer.StartConsuming(service)
 	handler := SuggestionController{
 		suggestionService: service,
 		auth: rh.Auth,
@@ -34,7 +35,7 @@ func SetupNoteRoutes(rh *rest.RestHandler) {
 	//Public endpoint
 
 	pubRoutes.Post("/createsuggestion" ,handler.CreateSuggestion)
-	pubRoutes.Get("/getsuggestions", handler.GetUserNotes)
+	pubRoutes.Get("/getsuggestions", handler.GetUserSuggestions)
 }
 
 func (handler *SuggestionController) CreateSuggestion(ctx fiber.Ctx) error {
@@ -51,7 +52,7 @@ func (handler *SuggestionController) CreateSuggestion(ctx fiber.Ctx) error {
             "message": "please provide valid input",
         })
     }
-    _, err := handler.suggestionService.CreateSuggestion(userInput, userId)
+    _, err := handler.suggestionService.CreateSuggestion(userInput)
     if err != nil {
         return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             "message": "failed to create suggestion",
@@ -63,7 +64,7 @@ func (handler *SuggestionController) CreateSuggestion(ctx fiber.Ctx) error {
     })
 }
 
-func (handler *SuggestionController) GetUserNotes(ctx fiber.Ctx) error {
+func (handler *SuggestionController) GetUserSuggestions(ctx fiber.Ctx) error {
 	userId := handler.auth.GetCurrentUserID(ctx) //We get user_id from auth token.
     if userId == 0 {
         return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{

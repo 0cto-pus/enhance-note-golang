@@ -10,7 +10,7 @@ import (
 )
 
 type ISuggestionService interface {
-    CreateSuggestion(note dto.SuggestioneCreate, userId uint64)(domain.Suggestion, error)
+    CreateSuggestion(suggestion dto.SuggestioneCreate)(domain.Suggestion, error)
     GetUserSuggestions(userId uint64) ([]domain.Suggestion,error)
 }
 
@@ -31,16 +31,16 @@ func NewSuggestionService(suggestionRepository repository.ISuggestionRepository,
 }
 
 
-func(SuggestionService *SuggestionService) CreateSuggestion(userInput dto.SuggestioneCreate, userId uint64)(domain.Suggestion, error){
+func(suggestionService *SuggestionService) CreateSuggestion(userInput dto.SuggestioneCreate)(domain.Suggestion, error){
 
   suggestion := domain.Suggestion{
+        UserID: userInput.UserID,
         NoteID: userInput.NoteID,
-        UserID:  userId,
         Suggestion: userInput.Suggestion,
     }
 
 
-    createdSuggestion, err := SuggestionService.suggestionRepository.CreateSuggestion(suggestion)
+    createdSuggestion, err := suggestionService.suggestionRepository.CreateSuggestion(suggestion)
     if err != nil {
             return domain.Suggestion{}, errors.New("failed to create note")
     }
@@ -48,8 +48,8 @@ func(SuggestionService *SuggestionService) CreateSuggestion(userInput dto.Sugges
     return createdSuggestion, nil
 }
 
-func(SuggestionService *SuggestionService) GetUserSuggestions(userId uint64) ([]domain.Suggestion,error){
-    suggestions, err := SuggestionService.suggestionRepository.GetAllSuggestionsByUserId(userId)
+func(suggestionService *SuggestionService) GetUserSuggestions(userId uint64) ([]domain.Suggestion,error){
+    suggestions, err := suggestionService.suggestionRepository.GetAllSuggestionsByUserId(userId)
     if err != nil {
         return nil, errors.New("failed to retrieve user notes")
     }

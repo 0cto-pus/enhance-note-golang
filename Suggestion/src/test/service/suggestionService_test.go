@@ -48,7 +48,7 @@ func TestMain(m *testing.M){
 
 func Test_ShouldCreateNote(t *testing.T){
 	t.Run("ShouldCreateSuggestion", func(t *testing.T) {
-		suggestion, err:= suggestionService.CreateSuggestion(dto.SuggestioneCreate{Suggestion: "GPT tidy" , NoteID: 4}, 1)
+		suggestion, err:= suggestionService.CreateSuggestion(dto.SuggestioneCreate{Suggestion: "GPT tidy" , NoteID: 4, UserID: 1})
 		assert.NoError(t, err)
 		assert.Equal(t, "GPT tidy", suggestion.Suggestion)
 		assert.Equal(t, uint64(1), suggestion.UserID)
