@@ -8,11 +8,12 @@ import (
 )
 
 type NoteMessage struct {
+	UserID uint64 `json:"user_id"`
 	NoteID  uint64 `json:"note_id"`
 	Content string `json:"content"`
 }
 
-func PublishNoteMessage(noteID uint64, content string) error {
+func PublishNoteMessage(noteId uint64, userId uint64, content string) error {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	if err != nil {
 		return err
@@ -38,7 +39,8 @@ func PublishNoteMessage(noteID uint64, content string) error {
 	}
 
 	noteMsg := NoteMessage{
-		NoteID:  noteID,
+		UserID: userId,
+		NoteID:  noteId,
 		Content: content,
 	}
 

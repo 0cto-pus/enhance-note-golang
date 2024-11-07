@@ -46,7 +46,7 @@ func(noteService *NoteService) CreateNote(userInput dto.NoteCreate, userId uint6
             return domain.Note{}, errors.New("failed to create note")
     }
 
-    err = publisher.PublishNoteMessage(note.ID, note.Content)
+    err = publisher.PublishNoteMessage(createdNote.ID, userId, note.Content)
 	if err != nil {
 		log.Printf("Failed to publish message: %v", err)
 	}
