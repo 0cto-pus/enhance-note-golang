@@ -36,6 +36,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/gommon v0.4.2
+	github.com/streadway/amqp v1.1.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/text v0.16.0 // indirect
 	gorm.io/driver/postgres v1.5.9
